@@ -2,7 +2,30 @@
 #include <fstream>
 using namespace std;
 
-
+//Helper function to wtire to file
+void writeToFile(char filename[], char username[], int score)
+{
+    ofstream leaderboard;
+    leaderboard.open(filename, ios::app);
+    leaderboard << username << " " << score << endl;
+}
+//Helper function to read from file
+void readFromFile(char filename[])
+{
+    ifstream leaderboard;
+    leaderboard.open(filename);
+    char readFromFile[5][200] = {};
+    if (leaderboard.is_open())
+    {
+        char myChar;
+        while (leaderboard)
+        {
+            myChar = leaderboard.get();
+            cout << myChar;
+        }
+    }
+    leaderboard.close();
+}
 //Helper function to find the number of the digits of a given number
 //used in the function "createBoard"
 int numberOfDigits(int number)
@@ -450,13 +473,21 @@ MENU:
     int myChoice;
     cin >> myChoice;
     const int SIZE = 100;
-    char nickname[SIZE] = {};
+    char username[SIZE] = {};
+
+    char filename1[] = "Leaderboard4x4.txt";
+    char filename2[] = "Leaderboard5x5.txt";
+    char filename3[] = "Leaderboard6x6.txt";
+    char filename4[] = "Leaderboard7x7.txt";
+    char filename5[] = "Leaderboard8x8.txt";
+    char filename6[] = "Leaderboard9x9.txt";
+    char filename7[] = "Leaderboard10x10,txt";
 
     if (myChoice == 1)
     {
         system("cls");
         cout << "Enter your nickname: " << endl;
-        cin >> nickname;
+        cin >> username;
 
         int dimension;
         cout << "Enter dimension: " << endl;
@@ -477,6 +508,34 @@ MENU:
             {
                 if (Win(board, dimension, MAXSCORE) == true)
                 {
+                    if (dimension == 4)
+                    {
+                        writeToFile(filename1, username, score);
+                    }
+                    else if (dimension == 5)
+                    {
+                        writeToFile(filename2, username, score);
+                    }
+                    else if (dimension == 6)
+                    {
+                        writeToFile(filename3, username, score);
+                    }
+                    else if (dimension == 7)
+                    {
+                        writeToFile(filename4, username, score);
+                    }
+                    else if (dimension == 8)
+                    {
+                        writeToFile(filename5, username, score);
+                    }
+                    else if (dimension == 9)
+                    {
+                        writeToFile(filename6, username, score);
+                    }
+                    else if (dimension == 10)
+                    {
+                        writeToFile(filename7, username, score);
+                    }
                     int quitOrContinue1;
                     cout << "YOU WIN!" << endl;
                     cout << "Your final score is: " << score << endl;
@@ -495,6 +554,34 @@ MENU:
                 }
                 if (gameOver(board, dimension))
                 {
+                    if (dimension == 4)
+                    {
+                        writeToFile(filename1, username, score);
+                    }
+                    else if (dimension == 5)
+                    {
+                        writeToFile(filename2, username, score);
+                    }
+                    else if (dimension == 6)
+                    {
+                        writeToFile(filename3, username, score);
+                    }
+                    else if (dimension == 7)
+                    {
+                        writeToFile(filename4, username, score);
+                    }
+                    else if (dimension == 8)
+                    {
+                        writeToFile(filename5, username, score);
+                    }
+                    else if (dimension == 9)
+                    {
+                        writeToFile(filename6, username, score);
+                    }
+                    else if (dimension == 10)
+                    {
+                        writeToFile(filename7, username, score);
+                    }
                     char quitOrContinue2;
                     cout << "GAME OVER!" << endl;
                     cout << "Your final score is: " << score << endl;
@@ -531,11 +618,38 @@ MENU:
                 }
                 else if (direction == 'q')
                 {
+                    if (dimension == 4)
+                    {
+                        writeToFile(filename1, username, score);
+                    }
+                    else if (dimension == 5)
+                    {
+                        writeToFile(filename2, username, score);
+                    }
+                    else if (dimension == 6)
+                    {
+                        writeToFile(filename3, username, score);
+                    }
+                    else if (dimension == 7)
+                    {
+                        writeToFile(filename4, username, score);
+                    }
+                    else if (dimension == 8)
+                    {
+                        writeToFile(filename5, username, score);
+                    }
+                    else if (dimension == 9)
+                    {
+                        writeToFile(filename6, username, score);
+                    }
+                    else if (dimension == 10)
+                    {
+                        writeToFile(filename7, username, score);
+                    }
                     return 0;
                 }
                 cout << "SCORE: " << score << endl;
             }
-
         }
         else
         {
@@ -579,6 +693,34 @@ MENU:
         if (number >= 1 && number <= 7)
         {
             system("cls");
+            if (number == 1)
+            {
+                readFromFile(filename1);
+            }
+            else if (number == 2)
+            {
+                readFromFile(filename2);
+            }
+            else if (number == 3)
+            {
+                readFromFile(filename3);
+            }
+            else if (number == 4)
+            {
+                readFromFile(filename4);
+            }
+            else if (number == 5)
+            {
+                readFromFile(filename5);
+            }
+            else if (number == 6)
+            {
+                readFromFile(filename6);
+            }
+            else if (number == 7)
+            {
+                readFromFile(filename7);
+            }
         }
         else
         {
