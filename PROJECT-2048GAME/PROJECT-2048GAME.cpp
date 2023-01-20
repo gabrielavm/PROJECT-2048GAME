@@ -165,7 +165,6 @@ void readFromLeaderboard(long scoreList[], char scoreFile[], char fileWithUserna
     {
         leaderboard << readUsernames[j] << " " << readScore[j] << endl;
     }
-
     leaderboard.close();
 }
 //Helper function to find the number of the digits of a given number
