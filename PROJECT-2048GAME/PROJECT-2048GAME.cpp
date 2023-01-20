@@ -18,7 +18,7 @@
 using namespace std;
 
 //Helper function to write to file
-void writeToFile(char filename[], char username[][50], long scoreList[])
+void writeToFile(char filename[], char username[][100], long scoreList[])
 {
     ofstream leaderboard;
     leaderboard.open(filename, ios::app);
@@ -93,7 +93,7 @@ void swapNumbers(long& number1, long& number2)
     number2 = temp;
 }
 //Helper function to sorts arrays in descending order depending on the score
-void bubbleSort(long readScore[], char readUsernames[][50], const int SIZE)
+void bubbleSort(long readScore[], char readUsernames[][100], const int SIZE)
 {
     for (int i = 0; i < SIZE - 1; ++i)
     {
@@ -108,7 +108,7 @@ void bubbleSort(long readScore[], char readUsernames[][50], const int SIZE)
     }
 }
 //Helper function to sort the files with usernames and score
-void sortFile(long scoreList[], char scoreFile[], char fileWithUsernames[], char filename[], char readUsernames[][50], long readScore[])
+void sortFile(long scoreList[], char scoreFile[], char fileWithUsernames[], char filename[], char readUsernames[][100], long readScore[])
 {
     const int SIZE = 50;
     ifstream file1;
@@ -143,9 +143,9 @@ void sortFile(long scoreList[], char scoreFile[], char fileWithUsernames[], char
     file2.close();
 }
 //Helper function to read from the file, which contains the usernames and score of the players
-void readFromLeaderboard(long scoreList[], char scoreFile[], char fileWithUsernames[], char filename[], char readUsernames[][50], long readScore[])
+void readFromLeaderboard(long scoreList[], char scoreFile[], char fileWithUsernames[], char filename[], char readUsernames[][100], long readScore[])
 {
-    const int SIZE = 50;
+    const int SIZE = 100;
     const int maxRows = 5;
     sortFile(scoreList, scoreFile, fileWithUsernames, filename, readUsernames, readScore);
     int i = 0;
@@ -640,9 +640,9 @@ MENU:
     char usernameList6[] = "usernameList6.txt";
     char usernameList7[] = "usernameList7.txt";
 
-    const int ARRAYSIZE = 100;
-    char username[ARRAYSIZE][ARRAYSIZE] = {};
-    const int SIZE = 50;
+    const int SIZE = 100;
+    char username[SIZE][SIZE] = {};
+    
     long score1[SIZE] = {};
     char readUsernames1[SIZE][SIZE] = {};
     long readScore1[SIZE] = {};

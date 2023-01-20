@@ -1,8 +1,8 @@
+njhjm 44
+brgb 32
+vgfbgfb 16
+mjjhm 12
 player1 0
- 0
- 0
- 0
- 0
  0
  0
  0
