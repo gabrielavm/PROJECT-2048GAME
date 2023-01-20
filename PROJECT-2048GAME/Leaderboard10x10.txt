@@ -1,13 +1,3 @@
-USER 196
-gm 160
-newPlayer 152
-gaby 132
-betina 52
-firstUser 48
-gabriela 24
-player2 20
-User1 16
-bgfbf 0
  0
  0
  0
@@ -98,12 +88,13 @@ bgfbf 0
  0
  0
  0
- 196
-USER 196
-USER 196
-USER 196
-USER 196
-USER 196
-USER 196
-USER 196
-USER 196
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0

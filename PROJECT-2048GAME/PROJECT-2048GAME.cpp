@@ -1,29 +1,171 @@
-﻿#include <iostream>
+﻿/**
+*
+* Solution to course project # 4
+* Introduction to programming course
+* Faculty of Mathematics and Informatics of Sofia University
+* Winter semester 2022/2023
+*
+* @author Gabriela Mladenova
+* @idnumber 3MI0600225
+* @compiler Visual Studio
+*
+* <source code for the project 2048>
+*
+*/
+
+#include <iostream>
 #include <fstream>
 using namespace std;
 
-//Helper function to wtire to file
-void writeToFile(char filename[], char username[], int score)
+//Helper function to write to file
+void writeToFile(char filename[], char username[][50], long scoreList[])
 {
     ofstream leaderboard;
     leaderboard.open(filename, ios::app);
-    leaderboard << username << " " << score << endl;
-}
-//Helper function to read from file
-void readFromFile(char filename[])
-{
-    ifstream leaderboard;
-    leaderboard.open(filename);
-    char readFromFile[5][200] = {};
     if (leaderboard.is_open())
     {
-        char myChar;
-        while (leaderboard)
+        int j = 0;
+        leaderboard << username[j] << " " << scoreList[j] << endl;
+        ++j;
+    }
+    else
+    {
+        cout << "ERROR! Failed to open the file" << endl;
+    }
+    leaderboard.close();
+}
+//Helper function to create a copy of char array
+void copyCharArray(char* arr1, char* arr2)
+{
+    int index = 0;
+    while (arr1[index] != '\0')
+    {
+        arr2[index] = arr1[index];
+        ++index;
+    }
+    arr2[index] = '\0';
+}
+//Helper function to xawp two char arrays
+void swapCharArrays(char* a, char* b)
+{
+    char temp[100];
+    copyCharArray(a, temp);
+    copyCharArray(b, a);
+    copyCharArray(temp, b);
+}
+//Helper function to create a file that will collect the score of the players
+void createFileWithScore(long scoreList[], char scoreFile[], long score)
+{
+    ofstream fileWithScore;
+    fileWithScore.open(scoreFile, ios::app);
+    if (fileWithScore.is_open())
+    {
+        fileWithScore << score << endl;
+    }
+    else
+    {
+        cout << "ERROR! Failed to open the file!" << endl;
+    }
+    fileWithScore.close();
+}
+//Helper function to create a file that will collect the usernames of the players
+void createFileWithUsernames(char fileWithUsernames[], char username[][100])
+{
+    ofstream leaderboard;
+    leaderboard.open(fileWithUsernames, ios::app);
+    if (leaderboard.is_open())
+    {
+        int i = 0;
+        leaderboard << username[i] << endl;
+        ++i;
+    }
+    else
+    {
+        cout << "ERROR! Failed to open the file!" << endl;
+    }
+    leaderboard.close();
+}
+//Helper function to swap numbers
+void swapNumbers(long& number1, long& number2)
+{
+    long temp = number1;
+    number1 = number2;
+    number2 = temp;
+}
+//Helper function to sorts arrays in descending order depending on the score
+void bubbleSort(long readScore[], char readUsernames[][50], const int SIZE)
+{
+    for (int i = 0; i < SIZE - 1; ++i)
+    {
+        for (int j = 0; j < SIZE - i - 1; ++j)
         {
-            myChar = leaderboard.get();
-            cout << myChar;
+            if (readScore[j] < readScore[j + 1])
+            {
+                swapCharArrays(readUsernames[j], readUsernames[j + 1]);
+                swapNumbers(readScore[j], readScore[j + 1]);
+            }
         }
     }
+}
+//Helper function to sort the files with usernames and score
+void sortFile(long scoreList[], char scoreFile[], char fileWithUsernames[], char filename[], char readUsernames[][50], long readScore[])
+{
+    const int SIZE = 50;
+    ifstream file1;
+    file1.open(scoreFile);
+    if (file1.is_open())
+    {
+        for (int i = 0; i < SIZE; ++i)
+        {
+            file1 >> readScore[i];
+        }
+    }
+    else
+    {
+        cout << "ERROR! Failed to open the file!" << endl;
+    }
+    ifstream file2;
+    file2.open(fileWithUsernames);
+    if (file2.is_open())
+    {
+        for (int i = 0; i < SIZE; ++i)
+        {
+            file2 >> readUsernames[i];
+        }
+    }
+    else
+    {
+        cout << "ERROR! Failed to open the file!" << endl;
+    }
+    
+    bubbleSort(readScore, readUsernames, SIZE);
+    file1.close();
+    file2.close();
+}
+//Helper function to read from the file, which contains the usernames and score of the players
+void readFromLeaderboard(long scoreList[], char scoreFile[], char fileWithUsernames[], char filename[], char readUsernames[][50], long readScore[])
+{
+    const int SIZE = 50;
+    const int maxRows = 5;
+    sortFile(scoreList, scoreFile, fileWithUsernames, filename, readUsernames, readScore);
+    int i = 0;
+    for (int i = 0; i < SIZE; ++i)
+    {
+        while (i < maxRows)
+        {
+            cout << readUsernames[i] << " " << readScore[i] << endl;
+            ++i;
+        }
+    }
+    ofstream leaderboard;
+    leaderboard.open(filename, ios::in);
+    writeToFile(filename, readUsernames, readScore);
+
+    for (int j = 0; j < SIZE; ++j)
+    {
+        leaderboard << readUsernames[j] << " " << readScore[j] << endl;
+    }
+
     leaderboard.close();
 }
 //Helper function to find the number of the digits of a given number
@@ -472,8 +614,7 @@ MENU:
     cout << "Enter your choice: ";
     int myChoice;
     cin >> myChoice;
-    const int SIZE = 100;
-    char username[SIZE] = {};
+    cin.get();
 
     char filename1[] = "Leaderboard4x4.txt";
     char filename2[] = "Leaderboard5x5.txt";
@@ -481,13 +622,58 @@ MENU:
     char filename4[] = "Leaderboard7x7.txt";
     char filename5[] = "Leaderboard8x8.txt";
     char filename6[] = "Leaderboard9x9.txt";
-    char filename7[] = "Leaderboard10x10,txt";
+    char filename7[] = "Leaderboard10x10.txt";
+
+    char scoreList1[] = "scoreList1.txt";
+    char scoreList2[] = "scoreList2.txt";
+    char scoreList3[] = "scoreList3.txt";
+    char scoreList4[] = "scoreList4.txt";
+    char scoreList5[] = "scoreList5.txt";
+    char scoreList6[] = "scoreList6.txt";
+    char scoreList7[] = "scoreList7.txt";
+
+    char usernameList1[] = "usernameList1.txt";
+    char usernameList2[] = "usernameList2.txt";
+    char usernameList3[] = "usernameList3.txt";
+    char usernameList4[] = "usernameList4.txt";
+    char usernameList5[] = "usernameList5.txt";
+    char usernameList6[] = "usernameList6.txt";
+    char usernameList7[] = "usernameList7.txt";
+
+    const int ARRAYSIZE = 100;
+    char username[ARRAYSIZE][ARRAYSIZE] = {};
+    const int SIZE = 50;
+    long score1[SIZE] = {};
+    char readUsernames1[SIZE][SIZE] = {};
+    long readScore1[SIZE] = {};
+    long score2[SIZE] = {};
+    char readUsernames2[SIZE][SIZE] = {};
+    long readScore2[SIZE] = {};
+    long score3[SIZE] = {};
+    char readUsernames3[SIZE][SIZE] = {};
+    long readScore3[SIZE] = {};
+    long score4[SIZE] = {};
+    char readUsernames4[SIZE][SIZE] = {};
+    long readScore4[SIZE] = {};
+    long score5[SIZE] = {};
+    char readUsernames5[SIZE][SIZE] = {};
+    long readScore5[SIZE] = {};
+    long score6[SIZE] = {};
+    char readUsernames6[SIZE][SIZE] = {};
+    long readScore6[SIZE] = {};
+    long score7[SIZE] = {};
+    char readUsernames7[SIZE][SIZE] = {};
+    long readScore7[SIZE] = {};
+    
 
     if (myChoice == 1)
     {
         system("cls");
-        cout << "Enter your nickname: " << endl;
-        cin >> username;
+        cout << "!Your username should not exceed 100 symbols and should not contains spaces!" << endl;
+        cout << "Enter your username: " << endl;
+        int counter = 0;
+        cin.getline(username[counter], SIZE);
+        ++counter;
 
         int dimension;
         cout << "Enter dimension: " << endl;
@@ -510,31 +696,45 @@ MENU:
                 {
                     if (dimension == 4)
                     {
-                        writeToFile(filename1, username, score);
+                        createFileWithScore(score1, scoreList1, score);
+                        createFileWithUsernames(usernameList1, username);
+                        sortFile(score1, scoreList1, usernameList1, filename1, readUsernames1, readScore1);
                     }
                     else if (dimension == 5)
                     {
-                        writeToFile(filename2, username, score);
+                        createFileWithScore(score2, scoreList2, score);
+                        createFileWithUsernames(usernameList2, username);
+                        sortFile(score2, scoreList2, usernameList2, filename2, readUsernames2, readScore2);
                     }
                     else if (dimension == 6)
                     {
-                        writeToFile(filename3, username, score);
+                        createFileWithScore(score3, scoreList3, score);
+                        createFileWithUsernames(usernameList3, username);
+                        sortFile(score3, scoreList3, usernameList3, filename3, readUsernames3, readScore3);
                     }
                     else if (dimension == 7)
                     {
-                        writeToFile(filename4, username, score);
+                        createFileWithScore(score4, scoreList4, score);
+                        createFileWithUsernames(usernameList4, username);
+                        sortFile(score4, scoreList4, usernameList4, filename4, readUsernames4, readScore4);
                     }
                     else if (dimension == 8)
                     {
-                        writeToFile(filename5, username, score);
+                        createFileWithScore(score5, scoreList5, score);
+                        createFileWithUsernames(usernameList5, username);
+                        sortFile(score5, scoreList5, usernameList5, filename5, readUsernames5, readScore5);
                     }
                     else if (dimension == 9)
                     {
-                        writeToFile(filename6, username, score);
+                        createFileWithScore(score6, scoreList6, score);
+                        createFileWithUsernames(usernameList6, username);
+                        sortFile(score6, scoreList6, usernameList6, filename6, readUsernames6, readScore6);
                     }
                     else if (dimension == 10)
                     {
-                        writeToFile(filename7, username, score);
+                        createFileWithScore(score7, scoreList7, score);
+                        createFileWithUsernames(usernameList7, username);
+                        sortFile(score7, scoreList7, usernameList7, filename7, readUsernames7, readScore7);
                     }
                     int quitOrContinue1;
                     cout << "YOU WIN!" << endl;
@@ -556,31 +756,45 @@ MENU:
                 {
                     if (dimension == 4)
                     {
-                        writeToFile(filename1, username, score);
+                        createFileWithScore(score1, scoreList1, score);
+                        createFileWithUsernames(usernameList1, username);
+                        sortFile(score1, scoreList1, usernameList1, filename1, readUsernames1, readScore1);
                     }
                     else if (dimension == 5)
                     {
-                        writeToFile(filename2, username, score);
+                        createFileWithScore(score2, scoreList2, score);
+                        createFileWithUsernames(usernameList2, username);
+                        sortFile(score2, scoreList2, usernameList2, filename2, readUsernames2, readScore2);
                     }
                     else if (dimension == 6)
                     {
-                        writeToFile(filename3, username, score);
+                        createFileWithScore(score3, scoreList3, score);
+                        createFileWithUsernames(usernameList3, username);
+                        sortFile(score3, scoreList3, usernameList3, filename3, readUsernames3, readScore3);
                     }
                     else if (dimension == 7)
                     {
-                        writeToFile(filename4, username, score);
+                        createFileWithScore(score4, scoreList4, score);
+                        createFileWithUsernames(usernameList4, username);
+                        sortFile(score4, scoreList4, usernameList4, filename4, readUsernames4, readScore4);
                     }
                     else if (dimension == 8)
                     {
-                        writeToFile(filename5, username, score);
+                        createFileWithScore(score5, scoreList5, score);
+                        createFileWithUsernames(usernameList5, username);
+                        sortFile(score5, scoreList5, usernameList5, filename5, readUsernames5, readScore5);
                     }
                     else if (dimension == 9)
                     {
-                        writeToFile(filename6, username, score);
+                        createFileWithScore(score6, scoreList6, score);
+                        createFileWithUsernames(usernameList6, username);
+                        sortFile(score6, scoreList6, usernameList6, filename6, readUsernames6, readScore6);
                     }
                     else if (dimension == 10)
                     {
-                        writeToFile(filename7, username, score);
+                        createFileWithScore(score7, scoreList7, score);
+                        createFileWithUsernames(usernameList7, username);
+                        sortFile(score7, scoreList7, usernameList7, filename7, readUsernames7, readScore7);
                     }
                     char quitOrContinue2;
                     cout << "GAME OVER!" << endl;
@@ -620,31 +834,45 @@ MENU:
                 {
                     if (dimension == 4)
                     {
-                        writeToFile(filename1, username, score);
+                        createFileWithScore(score1, scoreList1, score);
+                        createFileWithUsernames(usernameList1, username);
+                        sortFile(score1, scoreList1, usernameList1, filename1, readUsernames1, readScore1);
                     }
                     else if (dimension == 5)
                     {
-                        writeToFile(filename2, username, score);
+                        createFileWithScore(score2, scoreList2, score);
+                        createFileWithUsernames(usernameList2, username);
+                        sortFile(score2, scoreList2, usernameList2, filename2, readUsernames2, readScore2);
                     }
                     else if (dimension == 6)
                     {
-                        writeToFile(filename3, username, score);
+                        createFileWithScore(score3, scoreList3, score);
+                        createFileWithUsernames(usernameList3, username);
+                        sortFile(score3, scoreList3, usernameList3, filename3, readUsernames3, readScore3);
                     }
                     else if (dimension == 7)
                     {
-                        writeToFile(filename4, username, score);
+                        createFileWithScore(score4, scoreList4, score);
+                        createFileWithUsernames(usernameList4, username);
+                        sortFile(score4, scoreList4, usernameList4, filename4, readUsernames4, readScore4);
                     }
                     else if (dimension == 8)
                     {
-                        writeToFile(filename5, username, score);
+                        createFileWithScore(score5, scoreList5, score);
+                        createFileWithUsernames(usernameList5, username);
+                        sortFile(score5, scoreList5, usernameList5, filename5, readUsernames5, readScore5);
                     }
                     else if (dimension == 9)
                     {
-                        writeToFile(filename6, username, score);
+                        createFileWithScore(score6, scoreList6, score);
+                        createFileWithUsernames(usernameList6, username);
+                        sortFile(score6, scoreList6, usernameList6, filename6, readUsernames6, readScore6);
                     }
                     else if (dimension == 10)
                     {
-                        writeToFile(filename7, username, score);
+                        createFileWithScore(score7, scoreList7, score);
+                        createFileWithUsernames(usernameList7, username);
+                        sortFile(score7, scoreList7, usernameList7, filename7, readUsernames7, readScore7);
                     }
                     return 0;
                 }
@@ -695,31 +923,31 @@ MENU:
             system("cls");
             if (number == 1)
             {
-                readFromFile(filename1);
+                readFromLeaderboard(score1, scoreList1, usernameList1, filename1, readUsernames1, readScore1);
             }
             else if (number == 2)
             {
-                readFromFile(filename2);
+                readFromLeaderboard(score2, scoreList2, usernameList2, filename2, readUsernames2, readScore2);
             }
             else if (number == 3)
             {
-                readFromFile(filename3);
+                readFromLeaderboard(score3, scoreList3, usernameList3, filename3, readUsernames3, readScore3);
             }
             else if (number == 4)
             {
-                readFromFile(filename4);
+                readFromLeaderboard(score4, scoreList4, usernameList4, filename4, readUsernames4, readScore4);
             }
             else if (number == 5)
             {
-                readFromFile(filename5);
+                readFromLeaderboard(score5, scoreList5, usernameList5, filename5, readUsernames5, readScore5);
             }
             else if (number == 6)
             {
-                readFromFile(filename6);
+                readFromLeaderboard(score6, scoreList6, usernameList6, filename6, readUsernames6, readScore6);
             }
             else if (number == 7)
             {
-                readFromFile(filename7);
+                readFromLeaderboard(score7, scoreList7, usernameList7, filename7, readUsernames7, readScore7);
             }
         }
         else
