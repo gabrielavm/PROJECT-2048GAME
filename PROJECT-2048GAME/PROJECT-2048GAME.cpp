@@ -15,9 +15,8 @@
 
 #include <iostream>
 #include <fstream>
+#include "GlobalVariables.h"
 using namespace std;
-
-
 
 //Helper function to write to file
 void writeToFile(char filename[], char username[][100], long scoreList[])
