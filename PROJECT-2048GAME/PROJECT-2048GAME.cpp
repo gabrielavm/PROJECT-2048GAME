@@ -594,7 +594,7 @@ MENU:
         cin >> dimension;
 
     STARTGAME:
-        if (dimension >= 4 && dimension <= 10)
+        if (dimension >= MINDIMENSION && dimension <= MAXDIMENSION)
         {
             srand((unsigned)time(NULL));
             char direction;
@@ -798,7 +798,7 @@ MENU:
             cout << "If you want to quit enter 0.";
             cin >> dimension;
 
-            if (dimension >= 4 && dimension <= 10)
+            if (dimension >= MINDIMENSION && dimension <= MAXDIMENSION)
             {
                 goto STARTGAME;
             }
