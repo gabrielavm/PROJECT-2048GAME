@@ -1,5 +1,8 @@
 #pragma once
 
+const int MAXSCORE = 2048;
+const int MAXDIMENSION = 10;
+
 const char filename1[] = "Leaderboard4x4.txt";
 const char filename2[] = "Leaderboard5x5.txt";
 const char filename3[] = "Leaderboard6x6.txt";
