@@ -1,40 +1,8 @@
-﻿/**
-*
-* Solution to course project # 4
-* Introduction to programming course
-* Faculty of Mathematics and Informatics of Sofia University
-* Winter semester 2022/2023
-*
-* @author Gabriela Mladenova
-* @idnumber 3MI0600225
-* @compiler Visual Studio
-*
-* <source code for the project 2048>
-*
-*/
-
 #include <iostream>
 #include <fstream>
 #include "GlobalVariables.h"
 using namespace std;
 
-//Helper function to write to file
-void writeToFile(char filename[], char username[][100], long scoreList[])
-{
-    ofstream leaderboard;
-    leaderboard.open(filename, ios::app);
-    if (leaderboard.is_open())
-    {
-        int j = 0;
-        leaderboard << username[j] << " " << scoreList[j] << endl;
-        ++j;
-    }
-    else
-    {
-        cout << "ERROR! Failed to open the file" << endl;
-    }
-    leaderboard.close();
-}
 //Helper function to create a copy of char array
 void copyCharArray(char* arr1, char* arr2)
 {
@@ -76,9 +44,7 @@ void createFileWithUsernames(char fileWithUsernames[], char username[][100])
     leaderboard.open(fileWithUsernames, ios::app);
     if (leaderboard.is_open())
     {
-        int i = 0;
-        leaderboard << username[i] << endl;
-        ++i;
+        leaderboard << username[0] << endl;
     }
     else
     {
@@ -149,7 +115,7 @@ void readFromLeaderboard(long scoreList[], char scoreFile[], char fileWithUserna
     const int SIZE = 100;
     const int maxRows = 5;
     sortFile(scoreList, scoreFile, fileWithUsernames, filename, readUsernames, readScore);
-    int i = 0;
+   
     for (int i = 0; i < SIZE; ++i)
     {
         while (i < maxRows)
@@ -160,7 +126,6 @@ void readFromLeaderboard(long scoreList[], char scoreFile[], char fileWithUserna
     }
     ofstream leaderboard;
     leaderboard.open(filename, ios::in);
-    writeToFile(filename, readUsernames, readScore);
 
     for (int j = 0; j < SIZE; ++j)
     {
