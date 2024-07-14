@@ -17,7 +17,7 @@ void copyCharArray(char* arr1, char* arr2)
 //Helper function to xawp two char arrays
 void swapCharArrays(char* a, char* b)
 {
-    char temp[100];
+    char temp[SIZE];
     copyCharArray(a, temp);
     copyCharArray(b, a);
     copyCharArray(temp, b);
@@ -112,7 +112,6 @@ void sortFile(long scoreList[], const char scoreFile[], const char fileWithUsern
 //Helper function to read from the file, which contains the usernames and score of the players
 void readFromLeaderboard(long scoreList[], const char scoreFile[], const char fileWithUsernames[], const char filename[], char readUsernames[][100], long readScore[])
 {
-    const int SIZE = 100;
     const int maxRows = 5;
     sortFile(scoreList, scoreFile, fileWithUsernames, filename, readUsernames, readScore);
    
@@ -599,10 +598,8 @@ MENU:
         {
             srand((unsigned)time(NULL));
             char direction;
-            const int MAXSCORE = 2048;
             long step = 0;
             long score = 0;
-            const int MAXDIMENSION = 10;
             int board[MAXDIMENSION][MAXDIMENSION] = {};
             createBoard(board, dimension, step);
             while (1)
