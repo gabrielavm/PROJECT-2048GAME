@@ -23,7 +23,7 @@ void swapCharArrays(char* a, char* b)
     copyCharArray(temp, b);
 }
 //Helper function to create a file that will collect the score of the players
-void createFileWithScore(long scoreList[], char scoreFile[], long score)
+void createFileWithScore(const long scoreList[], const char scoreFile[], long score)
 {
     ofstream fileWithScore;
     fileWithScore.open(scoreFile, ios::app);
@@ -38,7 +38,7 @@ void createFileWithScore(long scoreList[], char scoreFile[], long score)
     fileWithScore.close();
 }
 //Helper function to create a file that will collect the usernames of the players
-void createFileWithUsernames(char fileWithUsernames[], char username[][100])
+void createFileWithUsernames(const char fileWithUsernames[], const char username[][100])
 {
     ofstream leaderboard;
     leaderboard.open(fileWithUsernames, ios::app);
@@ -75,7 +75,7 @@ void bubbleSort(long readScore[], char readUsernames[][100], const int SIZE)
     }
 }
 //Helper function to sort the files with usernames and score
-void sortFile(long scoreList[], char scoreFile[], char fileWithUsernames[], char filename[], char readUsernames[][100], long readScore[])
+void sortFile(long scoreList[], const char scoreFile[], const char fileWithUsernames[], const char filename[], char readUsernames[][100], long readScore[])
 {
     const int SIZE = 50;
     ifstream file1;
@@ -110,7 +110,7 @@ void sortFile(long scoreList[], char scoreFile[], char fileWithUsernames[], char
     file2.close();
 }
 //Helper function to read from the file, which contains the usernames and score of the players
-void readFromLeaderboard(long scoreList[], char scoreFile[], char fileWithUsernames[], char filename[], char readUsernames[][100], long readScore[])
+void readFromLeaderboard(long scoreList[], const char scoreFile[], const char fileWithUsernames[], const char filename[], char readUsernames[][100], long readScore[])
 {
     const int SIZE = 100;
     const int maxRows = 5;
