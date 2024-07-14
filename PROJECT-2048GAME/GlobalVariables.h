@@ -2,6 +2,7 @@
 
 const int MAXSCORE = 2048;
 const int MAXDIMENSION = 10;
+const int MINDIMENSION = 4;
 
 const char filename1[] = "Leaderboard4x4.txt";
 const char filename2[] = "Leaderboard5x5.txt";
